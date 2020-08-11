@@ -1,5 +1,11 @@
-import React, { useState, useEffect, useReducer } from "react";
-import { Dropdown } from "semantic-ui-react";
+import React, {
+  useState,
+  useEffect,
+  useReducer,
+  useCallback,
+  useRef,
+} from "react";
+import { Dropdown, Message } from "semantic-ui-react";
 
 function mockFetch(dataset, page, limit, time) {
   return new Promise(function (resolve, reject) {
@@ -31,6 +37,7 @@ function prepareImageHTML(list) {
   return list.map(function createImageTag(list, index) {
     return (
       <img
+        alt="Chest X-ray"
         key={index}
         src={list.url}
         className="app__classify-slider-image"
@@ -70,8 +77,30 @@ function imgReducer(state, action) {
   }
 }
 
-function DatasetSlider() {
-  const [dataset, setDataset] = useState("covid");
+const pageReducer = (state, action) => {
+  switch (action.type) {
+    case "ADVANCE_PAGE":
+      if (state.limitReached) {
+        return state;
+      }
+      //console.log(`Advancing the page from ${state.page} to ${state.page + 1}`);
+      return { ...state, page: state.page + 1 };
+    case "RESET_PAGE":
+      return { page: 0, limitReached: false };
+    case "PAGE_LIMIT_REACHED":
+      return { ...state, limitReached: true };
+    default:
+      return state;
+  }
+};
+
+function DatasetSlider(props) {
+  console.log(props);
+  const [dataset, setDataset] = useState(props.dataset);
+  const [pager, pagerDispatch] = useReducer(pageReducer, {
+    page: 0,
+    limitReached: false,
+  });
   const [imgData, imgDispatch] = useReducer(imgReducer, {
     images: [],
     fetching: true,
@@ -81,13 +110,19 @@ function DatasetSlider() {
     let value = data.value;
     setDataset(value);
     imgDispatch({ type: "CHANGE_DATASET" });
+    pagerDispatch({ type: "RESET_PAGE" });
   }
 
   useEffect(
     function fetchImages() {
       imgDispatch({ type: "FETCHING_IMAGES", fetching: true });
       // TODO: Remove mocking when you put the images on AWS
-      mockFetch(dataset, 0, 10, 1000)
+      let limit = 60;
+      if (pager.page * props.imagesPerPage >= limit) {
+        pagerDispatch({ type: "PAGE_LIMIT_REACHED" });
+        return;
+      }
+      mockFetch(dataset, pager.page, props.imagesPerPage, 1000)
         .then(function imageDispatchAfterFetch(imgData) {
           imgDispatch({ type: "STACK_IMAGES", images: imgData });
           imgDispatch({ type: "FETCHING_IMAGES", fetching: false });
@@ -97,8 +132,52 @@ function DatasetSlider() {
           return err;
         });
     },
-    [imgDispatch, dataset]
+    [imgDispatch, dataset, pager.page, props.imagesPerPage, pagerDispatch]
   );
+
+  // Take care of infinite scrolling
+  // useref lets variables preserve their values across component renders
+  let bottomBoundaryRef = useRef(null);
+
+  const scrollObserver = useCallback(
+    function memoizedScrollObserver(node) {
+      return new IntersectionObserver(
+        function interSectionObserver(enteries) {
+          enteries.forEach(function iterateEnteries(en) {
+            if (en.intersectionRatio > 0) {
+              pagerDispatch({ type: "ADVANCE_PAGE" });
+            }
+          });
+        },
+        {
+          root: document.querySelector(".app__classify-slider-image-container"),
+          rootMargin: "5px",
+          threshold: 1.0,
+        }
+      ).observe(node);
+    },
+    [pagerDispatch]
+  );
+
+  useEffect(
+    function invokeObserver() {
+      if (bottomBoundaryRef.current) {
+        scrollObserver(bottomBoundaryRef.current);
+      }
+    },
+    [scrollObserver, bottomBoundaryRef]
+  );
+
+  const items = [];
+  const header = "COVID-19 Radiography Database";
+  if (dataset === "covid") {
+    items.push("219 COVID-19 positive chest X-ray images");
+  } else if (dataset === "normal") {
+    items.push("1345 normal chest X-ray images");
+  } else {
+    items.push("1345 viral pneumonia chest X-ray images");
+  }
+
   return (
     <div className="app__classify-slider-container">
       <Dropdown
@@ -107,8 +186,37 @@ function DatasetSlider() {
         selection
         onChange={handleDatasetChange}
       />
+      <Message>
+        <Message.Header>
+          <a
+            href="https://www.kaggle.com/tawsifurrahman/covid19-radiography-database"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {header}
+          </a>
+        </Message.Header>
+        <Message.List items={items} />
+      </Message>
       <div className="app__classify-slider-image-container">
         {prepareImageHTML(imgData.images)}
+        <div>
+          {imgData.fetching && !pager.limitReached && (
+            <div className="app__fetching-container">
+              <p className="app__fetching-text">Getting images</p>
+            </div>
+          )}
+          {imgData.fetching && pager.limitReached && (
+            <div className="app__fetching-container">
+              <p className="app__fetching-text">Fetched all the images</p>
+            </div>
+          )}
+          <div
+            id="page-bottom-boundary"
+            style={{ border: "1px solid red" }}
+            ref={bottomBoundaryRef}
+          ></div>
+        </div>
       </div>
     </div>
   );

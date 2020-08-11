@@ -79,7 +79,7 @@ main {
 .app__classify-slider-image-container {
   display: flex;
   flex-wrap: wrap;
-  overflow: auto;
+  overflow-y: scroll;
   height: 80%;
 }
 
