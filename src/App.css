@@ -74,6 +74,35 @@ main {
 
 .app__classify-classifier-container {
   flex: 1;
+  display: grid;
+  grid-template-rows: 40px 1fr 4fr;
+  grid-template-columns: 1fr 2fr 1fr 1fr;
+  grid-template-areas:
+    "upload . classify classify"
+    "info info info info"
+    "image image result result";
+  grid-gap: 1em;
+  padding: 1em;
+}
+
+.app__classify-classifier-upload {
+  grid-area: upload;
+}
+
+.app__classify-classifier-select {
+  grid-area: classify;
+}
+
+.app__classify-classifier-selected-image-container {
+  grid-area: image;
+}
+
+.app__classify-classifier-info {
+  grid-area: info;
+}
+
+.app__classify-classifier-result {
+  grid-area: result;
 }
 
 .app__classify-slider-image-container {
@@ -87,4 +116,10 @@ main {
   width: 150px;
   height: 150px;
   margin: 1em;
+  cursor: pointer;
+}
+
+.app__classify-classifier-selected-image {
+  width: 400px;
+  height: 400px;
 }

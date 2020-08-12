@@ -33,19 +33,6 @@ function mockFetch(dataset, page, limit, time) {
   });
 }
 
-function prepareImageHTML(list) {
-  return list.map(function createImageTag(list, index) {
-    return (
-      <img
-        alt="Chest X-ray"
-        key={index}
-        src={list.url}
-        className="app__classify-slider-image"
-      ></img>
-    );
-  });
-}
-
 const datasetOptions = [
   {
     key: "covid",
@@ -95,7 +82,6 @@ const pageReducer = (state, action) => {
 };
 
 function DatasetSlider(props) {
-  console.log(props);
   const [dataset, setDataset] = useState(props.dataset);
   const [pager, pagerDispatch] = useReducer(pageReducer, {
     page: 0,
@@ -111,6 +97,20 @@ function DatasetSlider(props) {
     setDataset(value);
     imgDispatch({ type: "CHANGE_DATASET" });
     pagerDispatch({ type: "RESET_PAGE" });
+  }
+
+  function prepareImageHTML(list) {
+    return list.map(function createImageTag(list, index) {
+      return (
+        <img
+          alt="Chest X-ray"
+          key={index}
+          src={list.url}
+          className="app__classify-slider-image"
+          onClick={props.handleSelect}
+        ></img>
+      );
+    });
   }
 
   useEffect(
