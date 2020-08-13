@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import DissmissableMessage from "../Messages/DissmissableMessage.js";
-import { Button, Dropdown, Message } from "semantic-ui-react";
+import { Button, Dropdown, Message, Image, Label } from "semantic-ui-react";
 
 const classifierOptions = [
   {
@@ -14,11 +14,16 @@ const classifierOptions = [
     text: "AlexNet",
   },
 ];
-function handleImageUpload() {
-  console.log("Todo");
-}
 
-function Classifier(props) {
+function Classifier() {
+  function handleImageUpload(event) {
+    const reader = new FileReader();
+    reader.onload = function onImageLoad() {
+      setSelectedImage(reader.result);
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  }
+
   function handleClassifierChange(e, data) {
     let value = data.value;
     console.log(value);
@@ -26,11 +31,13 @@ function Classifier(props) {
   }
 
   const [classifer, setClassifier] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const fileRef = useRef(null);
 
   const items = [];
-
   const header = "Classifier Information";
-  if (props.selectedImage) {
+  if (selectedImage) {
     if (classifer === "resnet") {
       items.push("ResNet model trained on 219 covid images");
     } else if (classifer === "alexnet") {
@@ -49,10 +56,12 @@ function Classifier(props) {
     <div className="app__classify-classifier-container">
       <button
         className="ui button app__classify-classifier-upload"
-        onClick={handleImageUpload}
+        onClick={() => fileRef.current.click()}
+        icon="file"
       >
-        Upload
+        Upload X-ray Image
       </button>
+      <input ref={fileRef} type="file" hidden onChange={handleImageUpload} />
       <Dropdown
         options={classifierOptions}
         value={classifer}
@@ -63,12 +72,14 @@ function Classifier(props) {
         selection
       />
       <div className="app__classify-classifier-selected-image-container">
-        {props.selectedImage && (
-          <img
-            className="app__classify-classifier-selected-image"
-            src={props.selectedImage}
-            alt="Selected chest X-ray"
-          ></img>
+        {selectedImage && <Image src={selectedImage} size="large" />}
+        {selectedImage === null && (
+          <Image size="large">
+            <Label
+              content="Upload an image using the button at the top."
+              icon="warning"
+            />
+          </Image>
         )}
       </div>
       <Message className="app__classify-classifier-info">
