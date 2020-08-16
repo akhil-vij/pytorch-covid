@@ -1,6 +1,13 @@
-import React, { useState, useRef } from "react";
-import DissmissableMessage from "../Messages/DissmissableMessage.js";
-import { Button, Dropdown, Message, Image, Label } from "semantic-ui-react";
+import React, { useState, useEffect, useReducer } from "react";
+import {
+  Dropdown,
+  Message,
+  Image,
+  Label,
+  Placeholder,
+} from "semantic-ui-react";
+import Upload from "../utils/Upload";
+import Result from "./Result";
 
 const classifierOptions = [
   {
@@ -14,8 +21,37 @@ const classifierOptions = [
     text: "AlexNet",
   },
 ];
+function classifierReducer(state, action) {
+  switch (action.type) {
+    case "CLASSIFICATION_IN_PROGRESS":
+      return { classifying: true, showNoResult: false, result: null };
+    case "CLASSIFICATION_SUCCESS":
+      return {
+        classifying: false,
+        result: action.payload.result,
+        showNoResult: false,
+      };
+    case "NO_CLASSIFICATION":
+      return { classifying: false, showNoResult: true, result: null };
+    default:
+      return state;
+  }
+}
 
 function Classifier() {
+  const [classifier, setClassifier] = useState(null);
+
+  // TODO: remove path while integration
+  const [selectedImage, setSelectedImage] = useState(
+    "/assets/images/covid/COVID-19 (24).png"
+  );
+
+  const [classificationState, dispatchAction] = useReducer(classifierReducer, {
+    result: null,
+    classifying: false,
+    showNoResult: false,
+  });
+
   function handleImageUpload(event) {
     const reader = new FileReader();
     reader.onload = function onImageLoad() {
@@ -25,22 +61,59 @@ function Classifier() {
   }
 
   function handleClassifierChange(e, data) {
-    let value = data.value;
-    console.log(value);
-    setClassifier(value);
+    setClassifier(data.value);
   }
 
-  const [classifer, setClassifier] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
-
-  const fileRef = useRef(null);
+  useEffect(
+    function classifyEffect() {
+      function classifyImage() {
+        return new Promise(function promiseExecutor(resolve, reject) {
+          // TODO: remove the mocking
+          setTimeout(function classify() {
+            let covidResult = Math.floor(Math.random() * 100);
+            let pneumoniaResult = Math.floor(Math.random() * 100);
+            let normalResult = Math.floor(Math.random() * 100);
+            let sum = covidResult + pneumoniaResult + normalResult;
+            let result = [
+              {
+                label: "Covid-19",
+                probability: covidResult / sum,
+              },
+              {
+                label: "Pneumonia",
+                probability: pneumoniaResult / sum,
+              },
+              {
+                label: "Normal",
+                probability: normalResult / sum,
+              },
+            ];
+            resolve(result);
+          }, 3000);
+        });
+      }
+      if (classifier && selectedImage) {
+        dispatchAction({ type: "CLASSIFICATION_IN_PROGRESS" });
+        classifyImage().then(function (result) {
+          dispatchAction({
+            type: "CLASSIFICATION_SUCCESS",
+            payload: { result },
+          });
+        });
+      } else {
+        dispatchAction({ type: "NO_CLASSIFICATION" });
+      }
+    },
+    [classifier, selectedImage]
+  );
 
   const items = [];
   const header = "Classifier Information";
+
   if (selectedImage) {
-    if (classifer === "resnet") {
+    if (classifier === "resnet") {
       items.push("ResNet model trained on 219 covid images");
-    } else if (classifer === "alexnet") {
+    } else if (classifier === "alexnet") {
       items.push("AlexNet model trained on 219 covid images");
     } else {
       items.push("Select a classfier to classify your X-ray image");
@@ -54,39 +127,54 @@ function Classifier() {
 
   return (
     <div className="app__classify-classifier-container">
-      <button
-        className="ui button app__classify-classifier-upload"
-        onClick={() => fileRef.current.click()}
-        icon="file"
-      >
-        Upload X-ray Image
-      </button>
-      <input ref={fileRef} type="file" hidden onChange={handleImageUpload} />
+      <Upload handleUpload={handleImageUpload}></Upload>
       <Dropdown
         options={classifierOptions}
-        value={classifer}
+        value={classifier}
         onChange={handleClassifierChange}
         className="app__classify-classifier-select"
         placeholder="Select a Classifier"
         clearable
         selection
       />
-      <div className="app__classify-classifier-selected-image-container">
-        {selectedImage && <Image src={selectedImage} size="large" />}
-        {selectedImage === null && (
-          <Image size="large">
-            <Label
-              content="Upload an image using the button at the top."
-              icon="warning"
-            />
-          </Image>
-        )}
-      </div>
       <Message className="app__classify-classifier-info">
         <Message.Header>{header}</Message.Header>
         <Message.List items={items} />
       </Message>
-      <div className="app__classify-classifier-result"></div>
+      <div className="app__classify-classifier-selected-image-container">
+        {selectedImage === "/assets/images/covid/COVID-19 (24).png" && (
+          <Label
+            color="red"
+            floating
+            id="app__classify-classifier-selected-image-warning"
+          >
+            Sample Image. Upload your X-ray image using the upload button at the
+            top.
+          </Label>
+        )}
+        {selectedImage && (
+          <Image
+            src={selectedImage}
+            className="app__classify-classifier-selected-image"
+          />
+        )}
+      </div>
+      <div className="app__classify-classifier-result">
+        {classificationState.result && (
+          <Result result={classificationState.result}></Result>
+        )}
+        {classificationState.classifying && (
+          <Placeholder>
+            <Placeholder.Paragraph>
+              <Placeholder.Line />
+              <Placeholder.Line />
+              <Placeholder.Line />
+              <Placeholder.Line />
+              <Placeholder.Line />
+            </Placeholder.Paragraph>
+          </Placeholder>
+        )}
+      </div>
     </div>
   );
 }

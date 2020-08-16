@@ -13,18 +13,11 @@ const Study = lazy(() => import("./components/Study"));
 const Resources = lazy(() => import("./components/Resources"));
 
 function App() {
-  // Ref for parent app to control the sidebar
-  const sidebarRef = React.createRef();
-
-  function onToggleSidebar() {
-    sidebarRef.current.classList.toggle("open");
-  }
-
   return (
     <Router>
       <div className="app">
-        <Header onToggleSidebar={onToggleSidebar}></Header>
-        <Sidebar sidebarRef={sidebarRef}></Sidebar>
+        <Header></Header>
+        <Sidebar></Sidebar>
         <main>
           <Suspense fallback={<div>Loading...</div>}>
             <Switch>

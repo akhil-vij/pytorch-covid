@@ -11,76 +11,87 @@ body {
   height: 100vh;
 }
 
-#root,
+#root {
+  --header-color: #ffffff;
+  --sidebar-color: #f0f0f0;
+  --sidebar-selected-color: #3b76ca;
+}
+
 .app {
-  height: 100%;
-  --header-color: dimgrey;
-  --sidebar-color: dimgrey;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 nav {
   --link-font-color: black;
-  position: absolute;
 }
 
 main {
-  height: calc(100% - 40px);
+  flex-basis: 90%;
 }
 
 .app__header {
-  height: 40px;
+  width: 100vw;
+  height: 60px;
   background-color: var(--header-color);
-  display: flex;
-  align-items: center;
-}
-
-.bars.icon {
-  font-size: 2rem;
-  cursor: pointer;
+  border: 1px solid #cccccc;
 }
 
 .app__sidebar {
-  width: 150px;
-  transform: translateX(-100%);
+  flex-basis: 10%;
   background-color: var(--sidebar-color);
-  height: 100vh; /*TODO: media*/
-  transition: transform 0.3s linear;
 }
-.app__sidebar.open {
-  transform: translateX(0%);
-}
+
 .app__sidebaritem {
   list-style: none;
+  padding: 1em;
+  position: relative;
+  cursor: pointer;
+}
+
+.app__sidebaritem.selected {
+  font-weight: 700;
+  background-color: #fafafa;
+  color: #3b76ca;
+}
+
+.app__sidebaritem.selected::after {
+  content: "";
+  background-color: #3b76ca;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+}
+
+.app__sidebaritem:hover {
+  background-color: #fafafa;
 }
 
 .app__sidebaritem-link {
-  display: flex;
-  padding: 1em;
-  flex-direction: column;
-  align-items: center;
   color: var(--link-font-color);
-  font-size: 1.5rem;
+  font-size: 1rem;
+  display: inline-block;
+  padding: 1em;
+}
+
+.app__sidebaritem.selected .app__sidebaritem-link {
+  color: #3b76ca;
 }
 
 .app__classify {
-  display: flex;
   padding: 2em;
-  height: 100%;
-}
-
-.app__classify-slider-container {
-  flex: 1;
 }
 
 .app__classify-classifier-container {
-  flex: 1;
   display: grid;
-  grid-template-rows: 40px 1fr 4fr;
-  grid-template-columns: 1fr 2fr 1fr 1fr;
+  grid-template-rows: 40px 2fr 6fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-areas:
-    "upload . classify classify"
-    "info info info info"
-    "image image result result";
+    "upload upload . classify classify"
+    "info info info info info"
+    "image image image result result";
   grid-gap: 1em;
   padding: 1em;
 }
@@ -95,6 +106,13 @@ main {
 
 .app__classify-classifier-selected-image-container {
   grid-area: image;
+  position: relative;
+}
+
+#app__classify-classifier-selected-image-warning {
+  top: 0;
+  left: 0;
+  margin: 0 !important;
 }
 
 .app__classify-classifier-info {
@@ -103,16 +121,17 @@ main {
 
 .app__classify-classifier-result {
   grid-area: result;
+  align-self: center;
 }
 
-.app__classify-slider-image-container {
+.app__slider-image-container {
   display: flex;
   flex-wrap: wrap;
   overflow-y: scroll;
   height: 80%;
 }
 
-.app__classify-slider-image {
+.app__slider-image {
   width: 150px;
   height: 150px;
   margin: 1em;
@@ -120,6 +139,6 @@ main {
 }
 
 .app__classify-classifier-selected-image {
-  width: 400px;
-  height: 400px;
+  width: 90%;
+  max-height: 500px;
 }

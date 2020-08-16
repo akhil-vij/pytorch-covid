@@ -1,46 +1,55 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import SidebarItem from "./SidebarItem";
 
-function generateSidebarItems() {
-  const sidebarItems = [
-    {
-      label: "Classify",
-      icon: "question circle",
-      path: "/",
-    },
-    {
-      label: "Compare",
-      icon: "columns",
-      path: "/compare",
-    },
-    {
-      label: "Study",
-      icon: "sticky note outline",
-      path: "/study",
-    },
-    {
-      label: "Resources",
-      icon: "question circle outline",
-      path: "/resources",
-    },
-  ];
-  return sidebarItems.map(function (item, index) {
-    return (
-      <SidebarItem
-        label={item.label}
-        icon={item.icon}
-        key={index}
-        position={index}
-        path={item.path}
-      ></SidebarItem>
-    );
-  });
-}
+const sidebarItems = [
+  {
+    label: "Classify",
+    path: "/",
+  },
+  {
+    label: "Compare",
+    path: "/compare",
+  },
+  {
+    label: "Study",
+    path: "/study",
+  },
+  {
+    label: "Resources",
+    path: "/resources",
+  },
+];
 
-function Sidebar(props) {
+function Sidebar() {
+  const [selected, setSelected] = useState("Classify");
+
+  function handleNavSelection(evt) {
+    if (evt.target.innerHTML !== selected) {
+      setSelected(evt.target.innerText);
+    }
+  }
+
+  const generateSidebar = useCallback(
+    function generateSidebarItems() {
+      return sidebarItems.map(function (item, index) {
+        return (
+          <SidebarItem
+            label={item.label}
+            key={index}
+            position={index}
+            path={item.path}
+            isSelected={selected === item.label}
+            clickHandler={handleNavSelection}
+          ></SidebarItem>
+        );
+      });
+    },
+    [selected]
+  );
+
   return (
-    <nav className="app__sidebar" ref={props.sidebarRef}>
-      <ul>{generateSidebarItems()}</ul>
+    <nav className="app__sidebar">
+      <ul>{generateSidebar()}</ul>
     </nav>
   );
 }

@@ -10,11 +10,6 @@ function Classify(props) {
   }
   return (
     <div className="app__classify">
-      <DatasetSlider
-        dataset={"covid"}
-        imagesPerPage={10}
-        handleSelect={handleImageChange}
-      ></DatasetSlider>
       <Classifier selectedImage={selectedImage}></Classifier>
     </div>
   );

@@ -1,12 +1,13 @@
 import React from "react";
-import { Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
-function SidebarItem({ label, icon, position, path }) {
+function SidebarItem({ label, position, path, clickHandler, isSelected }) {
   return (
-    <li className="app__sidebaritem">
+    <li
+      className={isSelected ? "app__sidebaritem selected" : "app__sidebaritem"}
+      onClick={clickHandler}
+    >
       <Link to={path} className="app__sidebaritem-link">
-        <Icon name={icon}></Icon>
         <span className="app__sidebaritem-label">{label}</span>
       </Link>
     </li>
