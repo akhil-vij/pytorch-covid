@@ -23,14 +23,13 @@ const sidebarItems = [
 function Sidebar() {
   const [selected, setSelected] = useState("Classify");
 
-  function handleNavSelection(evt) {
-    if (evt.target.innerHTML !== selected) {
-      setSelected(evt.target.innerText);
-    }
-  }
-
   const generateSidebar = useCallback(
     function generateSidebarItems() {
+      function handleNavSelection(evt) {
+        if (evt.target.innerHTML !== selected) {
+          setSelected(evt.target.innerText);
+        }
+      }
       return sidebarItems.map(function (item, index) {
         return (
           <SidebarItem

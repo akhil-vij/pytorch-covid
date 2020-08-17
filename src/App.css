@@ -15,6 +15,7 @@ body {
   --header-color: #ffffff;
   --sidebar-color: #f0f0f0;
   --sidebar-selected-color: #3b76ca;
+  --sidebar-hover-color: #fafafa;
 }
 
 .app {
@@ -51,13 +52,13 @@ main {
 
 .app__sidebaritem.selected {
   font-weight: 700;
-  background-color: #fafafa;
-  color: #3b76ca;
+  background-color: var(--sidebar-hover-color);
+  color: var(--sidebar-selected-color);
 }
 
 .app__sidebaritem.selected::after {
   content: "";
-  background-color: #3b76ca;
+  background-color: var(--sidebar-selected-color);
   position: absolute;
   left: 0;
   top: 0;
@@ -66,7 +67,7 @@ main {
 }
 
 .app__sidebaritem:hover {
-  background-color: #fafafa;
+  background-color: var(--sidebar-hover-color);
 }
 
 .app__sidebaritem-link {
@@ -77,8 +78,10 @@ main {
 }
 
 .app__sidebaritem.selected .app__sidebaritem-link {
-  color: #3b76ca;
+  color: var(--sidebar-selected-color);
 }
+
+/* Start styles of classification component */
 
 .app__classify {
   padding: 2em;
