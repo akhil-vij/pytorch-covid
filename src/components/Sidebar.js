@@ -21,7 +21,18 @@ const sidebarItems = [
 ];
 
 function Sidebar() {
-  const [selected, setSelected] = useState("Classify");
+  let initialState = "";
+  if (window.location.pathname === "/compare") {
+    initialState = "Compare";
+  } else if (window.location.pathname === "/study") {
+    initialState = "Study";
+  } else if (window.location.pathname === "/resources") {
+    initialState = "Resources";
+  } else {
+    initialState = "Classify";
+  }
+  console.log(initialState);
+  const [selected, setSelected] = useState(initialState);
 
   const generateSidebar = useCallback(
     function generateSidebarItems() {

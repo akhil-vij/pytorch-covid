@@ -155,3 +155,36 @@ main {
 }
 
 /* Styles for compare component */
+.app__compare {
+  --container-height: 600px;
+  display: flex;
+}
+.app__compare-container {
+  flex-basis: 70%;
+  padding: 1em;
+}
+.app__compare-button-container {
+  display: flex;
+  margin: 2em 0;
+  justify-content: space-between;
+}
+.app__compare-images-container {
+  max-height: var(--container-height);
+  margin: 2em auto;
+}
+.app__compare-compare-container {
+  max-height: var(--container-height);
+}
+div[data-testid="container"] {
+  height: var(--container-height) !important;
+}
+.app__compare-notes-container {
+  flex-basis: 30%;
+  padding: 1em;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+}
+.app__compare-export.app__compare-export.app__compare-export {
+  margin-top: 2em;
+}

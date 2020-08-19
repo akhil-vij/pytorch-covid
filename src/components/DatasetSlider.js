@@ -97,6 +97,9 @@ function DatasetSlider(props) {
     setDataset(value);
     imgDispatch({ type: "CHANGE_DATASET" });
     pagerDispatch({ type: "RESET_PAGE" });
+    if (props && props.handleDatasetChange) {
+      props.handleDatasetChange(value);
+    }
   }
 
   function prepareImageHTML(list) {
@@ -200,7 +203,7 @@ function DatasetSlider(props) {
       </Message>
       <div className="app__slider-image-container">
         {prepareImageHTML(imgData.images)}
-        <div class="app__fetching-parent">
+        <div className="app__fetching-parent">
           {imgData.fetching && !pager.limitReached && (
             <Message icon className="app__fetching-container">
               <Icon name="circle notched" loading />
