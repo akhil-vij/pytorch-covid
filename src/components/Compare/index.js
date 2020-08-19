@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import CompareImage from "./CompareImage";
 import DatasetSlider from "../DatasetSlider";
 import Upload from "../utils/Upload";
+import Notes from "../utils/Notes";
 
-import { Button, Modal, Form, TextArea } from "semantic-ui-react";
+import { Button, Modal } from "semantic-ui-react";
 
 function Compare() {
   const [isModelOpen, setIsModelOpen] = useState(false);
@@ -79,14 +80,7 @@ function Compare() {
         </div>
       </div>
 
-      <div className="app__compare-notes-container">
-        <Form>
-          <TextArea placeholder="Notes ..." rows="10" />
-        </Form>
-        <Button className="app__compare-export" onClick={handleExport}>
-          Export
-        </Button>
-      </div>
+      <Notes handleExport={handleExport}></Notes>
     </div>
   );
 }

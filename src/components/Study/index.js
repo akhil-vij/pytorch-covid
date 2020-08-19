@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import DatasetSlider from "../DatasetSlider";
 import Upload from "../utils/Upload";
+import Notes from "../utils/Notes";
 
-import { Button, Modal, Form, TextArea } from "semantic-ui-react";
+import { Button, Modal } from "semantic-ui-react";
 
 function Study() {
   const [isModelOpen, setIsModelOpen] = useState(false);
@@ -70,14 +71,7 @@ function Study() {
         <div className="app__study-image-container"></div>
       </div>
 
-      <div className="app__study-notes-container">
-        <Form>
-          <TextArea placeholder="Notes ..." rows="10" />
-        </Form>
-        <Button className="app__study-export" onClick={handleExport}>
-          Export
-        </Button>
-      </div>
+      <Notes handleExport={handleExport}></Notes>
     </div>
   );
 }
