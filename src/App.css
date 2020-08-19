@@ -159,11 +159,13 @@ main {
   --container-height: 600px;
   display: flex;
 }
-.app__compare-container {
+.app__compare-container,
+.app__study-container {
   flex-basis: 70%;
   padding: 1em;
 }
-.app__compare-button-container {
+.app__compare-button-container,
+.app__study-button-container {
   display: flex;
   margin: 2em 0;
   justify-content: space-between;
@@ -178,13 +180,21 @@ main {
 div[data-testid="container"] {
   height: var(--container-height) !important;
 }
-.app__compare-notes-container {
+.app__compare-notes-container,
+.app__study-notes-container {
   flex-basis: 30%;
   padding: 1em;
   align-self: center;
   display: flex;
   flex-direction: column;
 }
-.app__compare-export.app__compare-export.app__compare-export {
+.app__compare-export.app__compare-export.app__compare-export,
+.app__study-export.app__study-export.app__study-export {
   margin-top: 2em;
+}
+
+/* Styles for study component */
+.app__study {
+  display: flex;
+  height: 100%;
 }
