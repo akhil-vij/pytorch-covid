@@ -16,6 +16,7 @@ body {
   --sidebar-color: #f0f0f0;
   --sidebar-selected-color: #3b76ca;
   --sidebar-hover-color: #fafafa;
+  --container-height: 600px;
 }
 
 .app {
@@ -156,7 +157,6 @@ main {
 
 /* Styles for compare component */
 .app__compare {
-  --container-height: 600px;
   display: flex;
 }
 .app__compare-container,
@@ -193,6 +193,59 @@ div[data-testid="container"] {
 
 /* Styles for study component */
 .app__study {
-  display: flex;
+  width: 80%;
   height: 100%;
+  margin: 0 auto;
+  padding: 1em 0;
+}
+.app__study-container {
+  display: flex;
+  padding: 0;
+}
+.app__study-magnify-container {
+  flex-basis: 40%;
+}
+.app__study-filter-container {
+  flex-basis: 60%;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.app__study .app__notes-container {
+  margin: 1em 1em 1em 0;
+  padding: 0;
+}
+
+.app__study .app__notes-export {
+  width: 100px;
+}
+.app__study .app__notes-export.app__notes-export.app__notes-export {
+  margin-top: 0.5;
+}
+.app__study-button-container {
+  margin: 0 0 1em 0;
+}
+
+.app__study-reset {
+  width: 100px;
+  margin-top: 1em;
+  position: relative;
+  right: calc(-100% + 100px);
+}
+
+.app__progress-increment {
+  display: flex;
+  align-items: center;
+  max-height: 40px;
+  margin: 1em 0;
+}
+
+.app__progress-button {
+  flex-basis: 10%;
+}
+
+.app__progress-slider.app__progress-slider.app__progress-slider {
+  flex-basis: 80%;
+  margin: 0 5px;
 }

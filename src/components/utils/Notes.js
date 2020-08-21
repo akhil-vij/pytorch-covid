@@ -2,11 +2,11 @@ import React from "react";
 
 import { Form, TextArea, Button } from "semantic-ui-react";
 
-function Notes({ handleExport }) {
+function Notes({ handleExport, lines }) {
   return (
     <div className="app__notes-container">
       <Form>
-        <TextArea placeholder="Notes ..." rows="10" />
+        <TextArea placeholder="Notes ..." rows={lines} />
       </Form>
       <Button className="app__notes-export" onClick={handleExport}>
         Export
