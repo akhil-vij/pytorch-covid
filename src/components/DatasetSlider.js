@@ -70,7 +70,6 @@ const pageReducer = (state, action) => {
       if (state.limitReached) {
         return state;
       }
-      //console.log(`Advancing the page from ${state.page} to ${state.page + 1}`);
       return { ...state, page: state.page + 1 };
     case "RESET_PAGE":
       return { page: 0, limitReached: false };

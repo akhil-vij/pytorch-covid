@@ -4,7 +4,7 @@ import SidebarItem from "./SidebarItem";
 const sidebarItems = [
   {
     label: "Classify",
-    path: "/",
+    path: "/classify",
   },
   {
     label: "Compare",
@@ -28,10 +28,13 @@ function Sidebar() {
     initialState = "Study";
   } else if (window.location.pathname === "/resources") {
     initialState = "Resources";
-  } else {
+  } else if (window.location.pathname === "/resources") {
+    initialState = "Resources";
+  } else if (window.location.pathname === "/classify") {
     initialState = "Classify";
+  } else {
+    initialState = "Home";
   }
-  console.log(initialState);
   const [selected, setSelected] = useState(initialState);
 
   const generateSidebar = useCallback(
