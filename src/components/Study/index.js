@@ -59,7 +59,7 @@ function Study() {
 
   function handleImageSelect(evt) {
     if (evt.target.tagName === "IMG") {
-      // setImage(evt.target.getAttribute("src"));
+      setImage(evt.target.getAttribute("src"));
       setIsModelOpen(false);
     }
   }

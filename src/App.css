@@ -88,7 +88,8 @@ main {
 /* Start styles of classification component */
 
 .app__classify {
-  padding: 2em;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .app__classify-classifier-container {
@@ -158,16 +159,17 @@ main {
 /* Styles for compare component */
 .app__compare {
   display: flex;
+  width: 80%;
+  margin: 0 auto;
+  padding: 1em 0;
 }
-.app__compare-container,
-.app__study-container {
+.app__compare-container {
   flex-basis: 70%;
-  padding: 1em;
 }
 .app__compare-button-container,
 .app__study-button-container {
   display: flex;
-  margin: 2em 0;
+  margin: 0 0 1em 0;
   justify-content: space-between;
 }
 .app__compare-images-container {
@@ -180,15 +182,18 @@ main {
 div[data-testid="container"] {
   height: var(--container-height) !important;
 }
-.app__notes-container {
+.app__compare .app__notes-container {
   flex-basis: 30%;
   padding: 1em;
-  align-self: center;
+  align-self: flex-end;
   display: flex;
   flex-direction: column;
 }
 .app__notes-export.app__notes-export.app__notes-export {
   margin-top: 2em;
+  width: 100px;
+  position: relative;
+  right: calc(-100% + 100px);
 }
 
 /* Styles for study component */
@@ -222,9 +227,6 @@ div[data-testid="container"] {
 }
 .app__study .app__notes-export.app__notes-export.app__notes-export {
   margin-top: 0.5;
-}
-.app__study-button-container {
-  margin: 0 0 1em 0;
 }
 
 .app__study-reset {
