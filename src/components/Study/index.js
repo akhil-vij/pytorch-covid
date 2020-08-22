@@ -41,7 +41,7 @@ const cssFilter = {
     value: 1.5,
     min: 0,
     max: 3,
-    step: 0.5,
+    step: 0.4,
   },
 };
 
@@ -54,8 +54,6 @@ function Study() {
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [dataset, setDataset] = useState("covid");
   const [image, setImage] = useState("/assets/images/covid/COVID-19 (23).png");
-
-  function handleExport(evt) {}
 
   function handleImageSelect(evt) {
     if (evt.target.tagName === "IMG") {
@@ -119,7 +117,7 @@ function Study() {
         value: 1.5,
         min: 0,
         max: 3,
-        step: 0.5,
+        step: 0.4,
       },
     });
   }
@@ -139,7 +137,6 @@ function Study() {
     imageLabel = `Patient X-ray Image`;
   }
 
-  console.log(filter);
   const styleObj = updateStyleFromFilterObj(filter);
   return (
     <div className="app__study">
@@ -292,7 +289,7 @@ function Study() {
         </div>
       </div>
 
-      <Notes handleExport={handleExport}></Notes>
+      <Notes firstImage={image} caller="study"></Notes>
     </div>
   );
 }

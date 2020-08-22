@@ -80,7 +80,13 @@ function Compare() {
         </div>
       </div>
 
-      <Notes handleExport={handleExport} lines="8"></Notes>
+      <Notes
+        handleExport={handleExport}
+        lines="8"
+        firstImage={firstImage}
+        secondImage={secondImage}
+        caller="compare"
+      ></Notes>
     </div>
   );
 }

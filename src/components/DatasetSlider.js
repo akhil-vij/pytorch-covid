@@ -82,7 +82,7 @@ const pageReducer = (state, action) => {
 };
 
 function DatasetSlider(props) {
-  const [dataset, setDataset] = useState(props.dataset);
+  const [dataset, setDataset] = useState(props.dataset || "covid");
   const [pager, pagerDispatch] = useReducer(pageReducer, {
     page: 0,
     limitReached: false,
