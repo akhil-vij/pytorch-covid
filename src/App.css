@@ -17,6 +17,7 @@ body {
   --sidebar-selected-color: #3b76ca;
   --sidebar-hover-color: #fafafa;
   --container-height: 600px;
+  --primary-button-color: #3b76ca;
 }
 
 .app {
@@ -167,8 +168,10 @@ main {
   padding: 1em;
 }
 
-.app__classify-classifier-upload {
+.app__classify-classifier-upload.app__classify-classifier-upload.app__classify-classifier-upload {
   grid-area: upload;
+  background-color: var(--primary-button-color);
+  color: #ffffff;
 }
 
 .app__classify-classifier-select {
@@ -245,6 +248,7 @@ main {
 div[data-testid="container"] {
   height: var(--container-height) !important;
 }
+
 .app__compare .app__notes-container {
   flex-basis: 30%;
   padding: 1em;
@@ -257,6 +261,8 @@ div[data-testid="container"] {
   width: 100px;
   position: relative;
   right: calc(-100% + 100px);
+  background-color: var(--primary-button-color);
+  color: #ffffff;
 }
 
 /* Styles for study component */
@@ -313,4 +319,24 @@ div[data-testid="container"] {
 .app__progress-slider.app__progress-slider.app__progress-slider {
   flex-basis: 80%;
   margin: 0 5px;
+}
+
+.app__resource {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.app__resource .ui.embed {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  overflow: hidden;
+  background: #dcddde;
+  margin: 2em;
+  padding: 0;
+}
+
+.app__resource .ui.embed > .placeholder {
+  width: 400px;
+  height: 400px;
 }
