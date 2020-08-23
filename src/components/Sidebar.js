@@ -19,6 +19,9 @@ const sidebarItems = [
     path: "/resources",
   },
 ];
+if (window && !window.ResizeObserver) {
+  sidebarItems.splice(1, 1);
+}
 
 function Sidebar() {
   let initialState = "";

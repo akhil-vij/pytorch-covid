@@ -354,3 +354,9 @@ div[data-testid="container"] {
   width: 290px !important;
   height: 350px !important;
 }
+
+.app__compare-helper {
+  width: 80%;
+  margin: 0 auto;
+  padding: 1em 0;
+}

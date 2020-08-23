@@ -305,7 +305,8 @@ function Study() {
               <Card.Description>
                 Some portion of lungs look like hazy shade of gray. These should
                 ideally be black with fine white lung markings for blood
-                vessels.
+                vessels. Usually the first sign and happen on the periphery of
+                the lungs
               </Card.Description>
             </Card.Content>
           </Card>

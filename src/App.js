@@ -34,7 +34,9 @@ function App() {
             <Suspense fallback={<div>Loading...</div>}>
               <Switch>
                 <Route path="/classify" component={Classify} />
-                <Route path="/compare" component={Compare} />
+                {window && window.ResizeObserver && (
+                  <Route path="/compare" component={Compare} />
+                )}
                 <Route path="/study" component={Study} />
                 <Route path="/resources" component={Resources} />
               </Switch>
