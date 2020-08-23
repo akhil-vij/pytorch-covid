@@ -71,6 +71,7 @@ function Study() {
       if (filterName !== "zoom") {
         style.filter = `${style.filter}${filterName}(${filter[filterName].value})`;
       }
+      return null;
     });
     return style;
   }
@@ -132,12 +133,12 @@ function Study() {
     reader.readAsDataURL(event.target.files[0]);
   }
 
-  let imageLabel = "";
-  if (dataset) {
-    imageLabel = `Selected ${dataset} X-ray Image`;
-  } else {
-    imageLabel = `Patient X-ray Image`;
-  }
+  // let imageLabel = "";
+  // if (dataset) {
+  //   imageLabel = `Selected ${dataset} X-ray Image`;
+  // } else {
+  //   imageLabel = `Patient X-ray Image`;
+  // }
 
   const styleObj = updateStyleFromFilterObj(filter);
   return (
