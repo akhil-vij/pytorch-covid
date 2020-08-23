@@ -103,15 +103,47 @@ main {
   border-radius: 50px;
   box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.3);
   display: flex;
-  padding: 5em;
+  padding: 3em;
+  justify-content: space-around;
 }
 
 .app__home-text-container {
-  flex-basis: 50%;
+  flex-basis: 35%;
+}
+
+.app__home-heading {
+  color: #c0271b;
+  font-weight: 900;
+  font-size: 6em;
+}
+.app__home-text {
+  color: #366bac;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.app__home-text-list {
+  list-style: disc;
+  margin-top: 1em;
+  font-size: 0.8em;
+  font-weight: normal;
+}
+
+.app__home-button-container {
+  text-align: center;
+}
+.app__home-container .app__home-button {
+  background: #c0271b;
+  transform: translateX(-50%);
+  padding: 0.5em;
+  margin-top: 1em;
+}
+.app__home-container .app__sidebaritem-link {
+  padding: 1em;
+  color: #ffffff;
 }
 .app__home-image {
   background: url("./medical_research.svg");
-  flex-basis: 50%;
+  flex-basis: 40%;
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
