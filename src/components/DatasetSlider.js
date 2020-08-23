@@ -14,17 +14,17 @@ function mockFetch(dataset, page, limit, time) {
       let start = page * limit + 1;
       let end = (page + 1) * limit;
       for (let i = start; i <= end; i++) {
-        let urlName = "";
+        let urlName = "https://s3.eu-west-2.amazonaws.com/covidradiology.com/";
 
         if (dataset === "covid") {
-          urlName = `COVID-19 (${i}).png`;
+          urlName += `COVID-19 (${i}).png`;
         } else if (dataset === "pneumonia") {
-          urlName = `Viral Pneumonia (${i}).png`;
+          urlName += `Viral Pneumonia (${i}).png`;
         } else {
-          urlName = `NORMAL (${i}).png`;
+          urlName += `NORMAL (${i}).png`;
         }
         let image = {
-          url: `/assets/images/${dataset}/${urlName}`,
+          url: urlName,
         };
         imageData.push(image);
       }
@@ -119,12 +119,12 @@ function DatasetSlider(props) {
     function fetchImages() {
       imgDispatch({ type: "FETCHING_IMAGES", fetching: true });
       // TODO: Remove mocking when you put the images on AWS
-      let limit = 60;
+      let limit = 100;
       if (pager.page * props.imagesPerPage >= limit) {
         pagerDispatch({ type: "PAGE_LIMIT_REACHED" });
         return;
       }
-      mockFetch(dataset, pager.page, props.imagesPerPage, 1000)
+      mockFetch(dataset, pager.page, props.imagesPerPage, 0)
         .then(function imageDispatchAfterFetch(imgData) {
           imgDispatch({ type: "STACK_IMAGES", images: imgData });
           imgDispatch({ type: "FETCHING_IMAGES", fetching: false });

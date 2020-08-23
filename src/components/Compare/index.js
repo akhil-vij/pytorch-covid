@@ -10,7 +10,7 @@ function Compare() {
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [selectedDataset, setSelectedDataset] = useState("covid");
   const [firstImage, setFirstImage] = useState(
-    "/assets/images/covid/COVID-19 (23).png"
+    "https://s3.eu-west-2.amazonaws.com/covidradiology.com/COVID-19+(23).png"
   );
   const [secondImage, setSecondImage] = useState(null);
 
@@ -63,7 +63,7 @@ function Compare() {
                   dataset={selectedDataset}
                   handleDatasetChange={handleDatasetChange}
                   handleSelect={handleFirstImageSelect}
-                  imagesPerPage={10}
+                  imagesPerPage={5}
                 ></DatasetSlider>
               </Modal.Content>
             </Modal>

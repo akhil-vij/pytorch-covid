@@ -91,7 +91,7 @@ function Download(props) {
               <Text>{`Sample X-ray image`}</Text>
               <Image
                 style={styles.imageColumn}
-                source={props.firstImage}
+                src={props.firstImage}
                 alt="images"
               />
             </View>
@@ -100,7 +100,7 @@ function Download(props) {
                 <Text>{`Patient X-ray image`}</Text>
                 <Image
                   style={styles.imageColumn}
-                  source={props.secondImage}
+                  src={props.secondImage}
                   alt="images"
                 />
               </View>
@@ -118,7 +118,7 @@ function Download(props) {
           {props.notes && (
             <Text style={styles.notes}>{`Observation: ${props.notes}`}</Text>
           )}
-          <Image style={styles.image} source={props.firstImage} alt="images" />
+          <Image style={styles.image} src={props.firstImage} alt="images" />
         </View>
       </Page>
     </Document>
