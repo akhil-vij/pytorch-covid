@@ -340,3 +340,17 @@ div[data-testid="container"] {
   width: 400px;
   height: 400px;
 }
+
+.app__study-helper-card-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.app__study-helper-card.app__study-helper-card.app__study-helper-card {
+  margin: 2em;
+}
+
+.app__study-helper-card-image img {
+  width: 290px !important;
+  height: 350px !important;
+}

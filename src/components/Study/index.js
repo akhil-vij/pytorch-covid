@@ -5,7 +5,7 @@ import Notes from "../utils/Notes";
 import Magnifier from "react-magnifier";
 import ProgressIncrement from "../utils/ProgressIncrement";
 
-import { Button, Modal } from "semantic-ui-react";
+import { Button, Modal, Card, Image } from "semantic-ui-react";
 
 const cssFilter = {
   brightness: {
@@ -290,6 +290,90 @@ function Study() {
       </div>
 
       <Notes firstImage={image} caller="study"></Notes>
+      <div className="app__study-helper">
+        <h2>Imaging features of Covid in chest X-rays & CT-scans</h2>
+        <div className="app__study-helper-card-container">
+          <Card className="app__study-helper-card">
+            <Image
+              className="app__study-helper-card-image"
+              src="/assets/images/x-ray_ground_glass_opacity.png"
+              wrapped
+              ui={false}
+            />
+            <Card.Content>
+              <Card.Header>Ground Glass Opacities in X-ray</Card.Header>
+              <Card.Description>
+                Some portion of lungs look like hazy shade of gray. These should
+                ideally be black with fine white lung markings for blood
+                vessels.
+              </Card.Description>
+            </Card.Content>
+          </Card>
+          <Card className="app__study-helper-card">
+            <Image
+              className="app__study-helper-card-image"
+              src="/assets/images/ct_ground_glass_opacity.png"
+              wrapped
+              ui={false}
+            />
+            <Card.Content>
+              <Card.Header>Ground Glass Opacities in CT-scan</Card.Header>
+              <Card.Description>
+                Chest CT-scans give much more detailed view of ground glass
+                opacities. These represent air sacs (alveoli) getting filled
+                with fluid.
+              </Card.Description>
+            </Card.Content>
+          </Card>
+          <Card className="app__study-helper-card">
+            <Image
+              className="app__study-helper-card-image"
+              src="/assets/images/x-ray_consolidation.png"
+              wrapped
+              ui={false}
+            />
+            <Card.Content>
+              <Card.Header>Consolidation in X-ray</Card.Header>
+              <Card.Description>
+                In severe infections, more fluid will accumulate in the lobes of
+                the lung. In these cases, ground glass opacities will progress
+                to solid white consolidation.
+              </Card.Description>
+            </Card.Content>
+          </Card>
+          <Card className="app__study-helper-card">
+            <Image
+              className="app__study-helper-card-image"
+              src="/assets/images/ct_consolidation.png"
+              wrapped
+              ui={false}
+            />
+            <Card.Content>
+              <Card.Header>Consolidation in CT-scan</Card.Header>
+              <Card.Description>
+                Seen in sever infections as glass opacities progress to solid
+                white consolidation.
+              </Card.Description>
+            </Card.Content>
+          </Card>
+          <Card className="app__study-helper-card">
+            <Image
+              className="app__study-helper-card-image"
+              src="/assets/images/ct_paving_pattern.png"
+              wrapped
+              ui={false}
+            />
+            <Card.Content>
+              <Card.Header>Paving Patterns in CT-scan</Card.Header>
+              <Card.Description>
+                Happens due to swelling of the interstitial space along the
+                walls of lung lobules. Appearance similar to irregular shaped
+                stones used to pave a street. Hence, the name "Paving Patterns".
+              </Card.Description>
+            </Card.Content>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }
