@@ -14,7 +14,7 @@ function mockFetch(dataset, page, limit, time) {
       let start = page * limit + 1;
       let end = (page + 1) * limit;
       for (let i = start; i <= end; i++) {
-        let urlName = "https://s3.eu-west-2.amazonaws.com/covidradiology.com/";
+        let urlName = "";
 
         if (dataset === "covid") {
           urlName += `COVID-19 (${i}).png`;
@@ -24,7 +24,7 @@ function mockFetch(dataset, page, limit, time) {
           urlName += `NORMAL (${i}).png`;
         }
         let image = {
-          url: urlName,
+          url: `/assets/images/${dataset}/${urlName}`,
         };
         imageData.push(image);
       }

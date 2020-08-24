@@ -88,7 +88,7 @@ main {
 
 .app__home {
   height: 100%;
-  background: url(/static/media/background.a7dcf96e.svg);
+  background: url("./background.svg");
   width: 100%;
   background-repeat: no-repeat;
   background-size: cover;

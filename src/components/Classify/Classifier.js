@@ -43,7 +43,7 @@ function Classifier() {
 
   // TODO: remove path while integration
   const [selectedImage, setSelectedImage] = useState(
-    "https://s3.eu-west-2.amazonaws.com/covidradiology.com/COVID-19+(24).png"
+    "/assets/images/covid/COVID-19 (24).png"
   );
 
   const [classificationState, dispatchAction] = useReducer(classifierReducer, {
@@ -142,8 +142,7 @@ function Classifier() {
         <Message.List items={items} />
       </Message>
       <div className="app__classify-classifier-selected-image-container">
-        {selectedImage ===
-          "https://s3.eu-west-2.amazonaws.com/covidradiology.com/COVID-19+(24).png" && (
+        {selectedImage === "/assets/images/covid/COVID-19 (24).png" && (
           <Label
             color="red"
             floating
