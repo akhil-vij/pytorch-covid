@@ -32,7 +32,6 @@ const path = require("path");
 // ...
 // For all GET requests, send back index.html
 // so that PathLocationStrategy can be used
-//TODO: check this out
 app.get("/*", function (req, res) {
   console.log(req);
   res.sendFile(path.join(__dirname + "/dist/index.html"));
