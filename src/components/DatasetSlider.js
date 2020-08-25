@@ -21,11 +21,10 @@ function mockFetch(dataset, page, limit, time) {
         } else if (dataset === "pneumonia") {
           urlName += `Viral_Pneumonia_(${i}).png`;
         } else {
-          //urlName += `NORMAL_(${i}).png`;
-          url: `/assets/images/${dataset}/${urlName}`,
+          urlName += `NORMAL_(${i}).png`;
         }
         let image = {
-          url: urlName,
+          url: `/assets/images/${dataset}/${urlName}`,
         };
         imageData.push(image);
       }
@@ -119,8 +118,7 @@ function DatasetSlider(props) {
   useEffect(
     function fetchImages() {
       imgDispatch({ type: "FETCHING_IMAGES", fetching: true });
-      // TODO: Remove mocking when you put the images on AWS
-      let limit = 100;
+      let limit = 60;
       if (pager.page * props.imagesPerPage >= limit) {
         pagerDispatch({ type: "PAGE_LIMIT_REACHED" });
         return;
