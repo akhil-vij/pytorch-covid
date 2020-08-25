@@ -10,10 +10,10 @@ function Compare() {
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [selectedDataset, setSelectedDataset] = useState("covid");
   const [firstImage, setFirstImage] = useState(
-    "https://s3.eu-west-2.amazonaws.com/covidradiology.com/COVID-19%20(24).png"
+    "/assets/images/covid/COVID-19_(23).png"
   );
   const [secondImage, setSecondImage] = useState(
-    "https://s3.eu-west-2.amazonaws.com/covidradiology.com/COVID-19%20(17).png"
+    "/assets/images/covid/COVID-19_(13).png"
   );
 
   function handleExport(evt) {}

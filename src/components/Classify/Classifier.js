@@ -25,7 +25,7 @@ function Classifier() {
   const [uploadedImageURL, setUploadedImageURL] = useState(null);
 
   const [selectedImage, setSelectedImage] = useState(
-    "https://s3.eu-west-2.amazonaws.com/covidradiology.com/COVID-19%20(24).png"
+    "/assets/images/covid/COVID-19_(24).png"
   );
 
   const [classificationState, dispatchAction] = useReducer(classifierReducer, {
@@ -53,6 +53,7 @@ function Classifier() {
       setSelectedImage(reader.result);
       axios.post("/upload", { image: reader.result }).then((resp) => {
         setUploadedImageURL(resp.data.fileName);
+        dispatchAction({ type: "NO_CLASSIFICATION" });
       });
     };
     reader.readAsDataURL(event.target.files[0]);
@@ -123,8 +124,7 @@ function Classifier() {
         <Message.List items={items} />
       </Message>
       <div className="app__classify-classifier-selected-image-container">
-        {selectedImage ===
-          "https://s3.eu-west-2.amazonaws.com/covidradiology.com/COVID-19%20(24).png" && (
+        {selectedImage === "/assets/images/covid/COVID-19_(24).png" && (
           <Label
             color="red"
             floating

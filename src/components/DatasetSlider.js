@@ -14,14 +14,15 @@ function mockFetch(dataset, page, limit, time) {
       let start = page * limit + 1;
       let end = (page + 1) * limit;
       for (let i = start; i <= end; i++) {
-        let urlName = "https://s3.eu-west-2.amazonaws.com/covidradiology.com/";
-
+        //let urlName = "https://s3.eu-west-2.amazonaws.com/covidradiology.com/";
+        let urlName = "";
         if (dataset === "covid") {
-          urlName += `COVID-19 (${i}).png`;
+          urlName += `COVID-19_(${i}).png`;
         } else if (dataset === "pneumonia") {
-          urlName += `Viral Pneumonia (${i}).png`;
+          urlName += `Viral_Pneumonia_(${i}).png`;
         } else {
-          urlName += `NORMAL (${i}).png`;
+          //urlName += `NORMAL_(${i}).png`;
+          url: `/assets/images/${dataset}/${urlName}`,
         }
         let image = {
           url: urlName,

@@ -53,9 +53,7 @@ function Study() {
   const [filter, setFilter] = useState(cssFilter);
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [dataset, setDataset] = useState("covid");
-  const [image, setImage] = useState(
-    "https://s3.eu-west-2.amazonaws.com/covidradiology.com/COVID-19 (23).png"
-  );
+  const [image, setImage] = useState("/assets/images/covid/COVID-19_(24).png");
 
   function handleImageSelect(evt) {
     if (evt.target.tagName === "IMG") {
