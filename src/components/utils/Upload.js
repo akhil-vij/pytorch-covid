@@ -9,9 +9,15 @@ function Upload(props) {
         className="app__classify-classifier-upload"
         onClick={() => fileRef.current.click()}
       >
-        Upload X-ray Image
+        Upload Patient Image
       </Button>
-      <input ref={fileRef} type="file" hidden onChange={props.handleUpload} />
+      <input
+        ref={fileRef}
+        type="file"
+        hidden
+        onChange={props.handleUpload}
+        accept="image/*"
+      />
     </>
   );
 }

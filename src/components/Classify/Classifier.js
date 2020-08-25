@@ -1,26 +1,9 @@
-import React, { useState, useEffect, useReducer } from "react";
-import {
-  Dropdown,
-  Message,
-  Image,
-  Label,
-  Placeholder,
-} from "semantic-ui-react";
+import React, { useState, useReducer } from "react";
+import { Message, Image, Label, Placeholder, Button } from "semantic-ui-react";
 import Upload from "../utils/Upload";
 import Result from "./Result";
+import axios from "axios";
 
-const classifierOptions = [
-  {
-    key: "resnet",
-    value: "resnet",
-    text: "ResNet",
-  },
-  {
-    key: "alexnet",
-    value: "alexnet",
-    text: "AlexNet",
-  },
-];
 function classifierReducer(state, action) {
   switch (action.type) {
     case "CLASSIFICATION_IN_PROGRESS":
@@ -39,15 +22,27 @@ function classifierReducer(state, action) {
 }
 
 function Classifier() {
-  const [classifier, setClassifier] = useState(null);
+  const [uploadedImageURL, setUploadedImageURL] = useState(null);
 
-  // TODO: remove path while integration
   const [selectedImage, setSelectedImage] = useState(
     "https://s3.eu-west-2.amazonaws.com/covidradiology.com/COVID-19%20(24).png"
   );
 
   const [classificationState, dispatchAction] = useReducer(classifierReducer, {
-    result: null,
+    result: [
+      {
+        label: "Covid-19",
+        probability: 0.5281470544692477,
+      },
+      {
+        label: "Pneumonia",
+        probability: 0.20197767171292277,
+      },
+      {
+        label: "Normal",
+        probability: 0.2698752738178295,
+      },
+    ],
     classifying: false,
     showNoResult: false,
   });
@@ -56,96 +51,73 @@ function Classifier() {
     const reader = new FileReader();
     reader.onload = function onImageLoad() {
       setSelectedImage(reader.result);
+      axios.post("/upload", { image: reader.result }).then((resp) => {
+        setUploadedImageURL(resp.data.fileName);
+      });
     };
     reader.readAsDataURL(event.target.files[0]);
   }
 
-  function handleClassifierChange(e, data) {
-    setClassifier(data.value);
-    // Make the classification call
-    fetch("/search")
-      .then((res) => {
-        return res.json();
-      })
-      .then((res) => {
-        //console.log(res);
-        console.log(res);
-      });
-  }
+  function handleClassify() {
+    if (uploadedImageURL) {
+      dispatchAction({ type: "CLASSIFICATION_IN_PROGRESS" });
 
-  useEffect(
-    function classifyEffect() {
-      function classifyImage() {
-        return new Promise(function promiseExecutor(resolve, reject) {
-          // TODO: remove the mocking
-          setTimeout(function classify() {
-            let covidResult = Math.floor(Math.random() * 100);
-            let pneumoniaResult = Math.floor(Math.random() * 100);
-            let normalResult = Math.floor(Math.random() * 100);
-            let sum = covidResult + pneumoniaResult + normalResult;
-            let result = [
-              {
-                label: "Covid-19",
-                probability: covidResult / sum,
-              },
-              {
-                label: "Pneumonia",
-                probability: pneumoniaResult / sum,
-              },
-              {
-                label: "Normal",
-                probability: normalResult / sum,
-              },
-            ];
-            resolve(result);
-          }, 3000);
+      classifyImage().then(function (result) {
+        dispatchAction({
+          type: "CLASSIFICATION_SUCCESS",
+          payload: { result },
         });
-      }
-      if (classifier && selectedImage) {
-        dispatchAction({ type: "CLASSIFICATION_IN_PROGRESS" });
-        classifyImage().then(function (result) {
-          dispatchAction({
-            type: "CLASSIFICATION_SUCCESS",
-            payload: { result },
-          });
-        });
-      } else {
-        dispatchAction({ type: "NO_CLASSIFICATION" });
-      }
-    },
-    [classifier, selectedImage]
-  );
+      });
+    } else {
+      dispatchAction({ type: "NO_CLASSIFICATION" });
+    }
+    function classifyImage() {
+      return axios.post("/classify", { uploadedImageURL }).then((resp) => {
+        let sum = resp.data.covid + resp.data.viral + resp.data.normal;
+        let covidScore = resp.data.covid / sum;
+        let viralScore = resp.data.viral / sum;
+        let normalScore = resp.data.normal / sum;
+        let result = [
+          {
+            label: "Covid-19",
+            probability: covidScore,
+          },
+          {
+            label: "Pneumonia",
+            probability: viralScore,
+          },
+          {
+            label: "Normal",
+            probability: normalScore,
+          },
+        ];
+        return result;
+      });
+    }
+  }
 
   const items = [];
   const header = "Classifier Information";
 
-  if (selectedImage) {
-    if (classifier === "resnet") {
-      items.push("ResNet model trained on 219 covid images");
-    } else if (classifier === "alexnet") {
-      items.push("AlexNet model trained on 219 covid images");
-    } else {
-      items.push("Select a classfier to classify your X-ray image");
-    }
-  } else {
+  if (uploadedImageURL) {
     items.push(
-      "Upload your chest X-ray image using the Browse button or select image from left dataset panel."
+      "Base ResNet18 pytorch model trained on Covid Radiology Dataset"
     );
-    items.push("Select a classfier to classify your X-ray image");
+    items.push("Use the Classify button to classify your X-ray image");
+  } else {
+    items.push("No user image found.");
+    items.push("Upload your chest X-ray image for classification.");
   }
 
   return (
     <div className="app__classify-classifier-container">
       <Upload handleUpload={handleImageUpload}></Upload>
-      <Dropdown
-        options={classifierOptions}
-        value={classifier}
-        onChange={handleClassifierChange}
+      <Button
+        onClick={handleClassify}
         className="app__classify-classifier-select"
-        placeholder="Select a Classifier"
-        clearable
-        selection
-      />
+      >
+        Classify
+      </Button>
       <Message className="app__classify-classifier-info">
         <Message.Header>{header}</Message.Header>
         <Message.List items={items} />

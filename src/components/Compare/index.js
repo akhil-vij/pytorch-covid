@@ -10,10 +10,10 @@ function Compare() {
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [selectedDataset, setSelectedDataset] = useState("covid");
   const [firstImage, setFirstImage] = useState(
-    "https://via.placeholder.com/800x600/F0F0F0/4877C4?text=Select"
+    "https://s3.eu-west-2.amazonaws.com/covidradiology.com/COVID-19%20(24).png"
   );
   const [secondImage, setSecondImage] = useState(
-    "https://via.placeholder.com/800x600/F0F0F0/4877C4?text=Upload"
+    "https://s3.eu-west-2.amazonaws.com/covidradiology.com/COVID-19%20(17).png"
   );
 
   function handleExport(evt) {}
@@ -35,11 +35,12 @@ function Compare() {
     };
     reader.readAsDataURL(event.target.files[0]);
   }
-
   const firstImageLabel = `Sample ${selectedDataset} X-ray image`;
-  const secondImageLabel = secondImage
-    ? "Uploaded Patient X-ray image"
-    : "Upload Patient X-ray image";
+  const secondImageLabel =
+    secondImage ===
+    "https://s3.eu-west-2.amazonaws.com/covidradiology.com/COVID-19%20(17).png"
+      ? "Sample image. Upload Patient image."
+      : "Uploaded Patient image";
 
   return (
     <>
@@ -50,7 +51,7 @@ function Compare() {
               className="app__compare-select"
               onClick={() => setIsModelOpen(true)}
             >
-              Select X-ray Image
+              Select Image
             </Button>
             <Modal
               onClose={() => setIsModelOpen(false)}

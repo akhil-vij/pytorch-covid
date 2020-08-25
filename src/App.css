@@ -176,6 +176,8 @@ main {
 
 .app__classify-classifier-select {
   grid-area: classify;
+  background-color: var(--primary-button-color) !important;
+  color: #ffffff !important;
 }
 
 .app__classify-classifier-selected-image-container {
