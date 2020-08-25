@@ -10,9 +10,11 @@ function Compare() {
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [selectedDataset, setSelectedDataset] = useState("covid");
   const [firstImage, setFirstImage] = useState(
-    "/assets/images/covid/COVID-19 (23).png"
+    "https://via.placeholder.com/800x600/F0F0F0/4877C4?text=Select"
   );
-  const [secondImage, setSecondImage] = useState(null);
+  const [secondImage, setSecondImage] = useState(
+    "https://via.placeholder.com/800x600/F0F0F0/4877C4?text=Upload"
+  );
 
   function handleExport(evt) {}
   function handleFirstImageSelect(evt) {
