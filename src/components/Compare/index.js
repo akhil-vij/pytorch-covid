@@ -37,8 +37,7 @@ function Compare() {
   }
   const firstImageLabel = `Sample ${selectedDataset} X-ray image`;
   const secondImageLabel =
-    secondImage ===
-    "https://s3.eu-west-2.amazonaws.com/covidradiology.com/COVID-19%20(17).png"
+    secondImage === "/assets/images/covid/COVID-19_(13).png"
       ? "Sample image. Upload Patient image."
       : "Uploaded Patient image";
 

@@ -362,3 +362,35 @@ div[data-testid="container"] {
   margin: 0 auto;
   padding: 1em 0;
 }
+
+@media screen and (max-width: 600px) {
+  .app {
+    display: block;
+  }
+  main {
+    max-height: initial;
+  }
+  .app__sidebar {
+    height: auto;
+  }
+  .app__classify {
+    width: auto;
+    margin: 0;
+  }
+  .app__classify-classifier-container {
+    display: block;
+  }
+  .app__compare {
+    display: block;
+  }
+  .app__study {
+    width: auto;
+    margin: 0;
+  }
+  .app__study-container {
+    display: block;
+  }
+  .magnifier {
+    width: auto !important;
+  }
+}
