@@ -1,38 +1,36 @@
-const bodyParser = require("body-parser");
+const { createServer } = require("http");
 const express = require("express");
+const compression = require("compression");
+const morgan = require("morgan");
 const app = express();
 
-app.use(express.static(__dirname + "/dist"));
-
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
-app.use(bodyParser.json());
+const dev = app.get("env") !== "production";
+const path = require("path");
 
 app.route("/search").get(function (req, res) {
   console.log(req);
   res.send({ express: "Hello From Express" });
 });
 
-var port = process.env.PORT || process.env.VCAP_APP_PORT || 5000;
-app.listen(port);
+if (!dev) {
+  app.disable("x-powered-by");
+  app.use(compression());
+  app.use(morgan("common"));
+  app.use(express.static(path.resolve(__dirname, "build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "build", "index.html"));
+  });
+}
 
-const forceSSL = function () {
-  return function (req, res, next) {
-    if (req.headers["x-forwarded-proto"] !== "https") {
-      return res.redirect(["http://", req.get("Host"), req.url].join(""));
-    }
-    next();
-  };
-};
-app.use(forceSSL());
-const path = require("path");
-// ...
-// For all GET requests, send back index.html
-// so that PathLocationStrategy can be used
-app.get("/*", function (req, res) {
-  console.log(req);
-  res.sendFile(path.join(__dirname + "/dist/index.html"));
+if (dev) {
+  app.use(morgan("dev"));
+}
+const port = process.env.PORT || process.env.VCAP_APP_PORT || 5000;
+const server = createServer(app);
+
+server.listen(port, (err) => {
+  if (err) {
+    throw err;
+  }
+  console.log("Server started");
 });
