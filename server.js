@@ -116,7 +116,7 @@ async function preprocess(data, width, height) {
 async function predict(preprocessedData, modelWidth, modelHeight) {
   // eslint-disable-next-line no-undef
   const session = new onnx.InferenceSession();
-  await session.loadModel("./model/backup-resnet-covid.onnx");
+  await session.loadModel("./model/resnet-covid.onnx");
   // eslint-disable-next-line no-undef
   const inputTensor = new onnx.Tensor(preprocessedData, "float32", [
     1,
